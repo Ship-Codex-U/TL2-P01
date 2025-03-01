@@ -33,6 +33,8 @@ class Ui_MainWindow(object):
         self.output_result = QPlainTextEdit(self.centralwidget)
         self.output_result.setObjectName(u"output_result")
         self.output_result.setGeometry(QRect(470, 30, 431, 261))
+        self.output_result.setReadOnly(True)
+        self.output_result.setCursorWidth(0)
         self.button_compile = QPushButton(self.centralwidget)
         self.button_compile.setObjectName(u"button_compile")
         self.button_compile.setGeometry(QRect(10, 300, 75, 24))

@@ -1,0 +1,68 @@
+import re
+
+class LexicalAnalizer:
+    def __init__(self):
+        self.__tokens = [
+                (r'\bint\b',               'Palabra reservada int'),
+                (r'\bfloat\b',             'Palabra reservada float'),
+                (r'\bchar\b',              'Palabra reservada char'),
+                (r'\bvoid\b',              'Palabra reservada void'),
+                (r'\bstring\b',            'Palabra reservada string'),
+                (r'[A-Za-z_][A-Za-z0-9_]*','Identificador'),
+                (r'\bpi\b',                'Constante'),
+                (r';',                     'Punto y coma'),
+                (r',',                     'Coma'),
+                (r'\(',                    'Paréntesis abierto'),
+                (r'\)',                    'Paréntesis cerrado'),
+                (r'\{',                    'Llave abierta'),
+                (r'\}',                    'Llave cerrada'),
+                (r'=',                     'Asignación'),
+                (r'\bif\b',                'Palabra reservada if'),
+                (r'\bwhile\b',             'Palabra reservada while'),
+                (r'\breturn\b',            'Palabra reservada return'),
+                (r'\belse\b',              'Palabra reservada else'),
+                (r'\bfor\b',               'Palabra reservada for'),
+                (r'\+',                    'Operador suma'),
+                (r'-',                     'Operador resta'),
+                (r'\*',                    'Operador multiplicación'),
+                (r'/',                     'Operador división'),
+                (r'&&',                    'Operador AND'),
+                (r'\|\|',                  'Operador OR'),
+                (r'<|<=|>|>=',             'Operador relacional'),
+                (r'==|!=',                 'Operación igualdad'),
+                (r'\d+\.\d+',              'Real'),
+                (r'\d+',                   'Entero'),
+                (r'\".*?\"',               'Cadena'),
+                (r'[ \n\t]+',              None),                     
+            ]
+    
+    def analyze(self, code):
+        token_regex = '|'.join(f'(?P<TOKEN_{i}>{pattern})' for i, (pattern, _) in enumerate(self.__tokens))
+        compiled_re = re.compile(token_regex)
+        
+        pos = 0
+        line_num = 1
+        tokensFound = []
+        errors = []
+
+        while pos < len(code):
+            match = compiled_re.match(code, pos)
+
+            if match:
+                for i, (_, tokenType) in enumerate(self.__tokens):
+                    lexeme = match.group(f'TOKEN_{i}')
+                    if lexeme:
+                        if tokenType:
+                            tokensFound.append((lexeme, tokenType))
+                        pos = match.end()
+                        line_num += lexeme.count('\n')
+                        break
+            else:
+                error_message = f"Error LEXICO: token no reconocido '{code[pos]}'"
+                errors.append(error_message)
+                pos += 1
+
+                if code[pos-1] == '\n':
+                    line_num += 1
+
+        return tokensFound, errors
