@@ -17,10 +17,7 @@ class MainWindow(QMainWindow):
 
     @Slot()
     def codeCompile(self):
-        resultTokens = ""
-
         self.ui.output_messages.clear()
-        self.ui.output_result.clear()
 
         code = self.ui.input_code.toPlainText()
 
@@ -30,12 +27,20 @@ class MainWindow(QMainWindow):
             for i, error in enumerate(lexicalErrors):
                 self.showOutputMessage(f'{str(i + 1)}) {error}', QColor(230,25,25))
         else:
-            self.showOutputMessage("Lexical analysis completed with no errors", QColor("green"))      
+            self.showOutputMessage("Lexical analysis completed with no errors", QColor("green"))
+            self.showOutputMessage("Tokens total = " + str(len(tokensFound)), QColor("green"))   
 
-        for token in tokensFound:
-            resultTokens += "{:<{}}{}\n".format(token[0], 30, token[1])        
-        self.ui.output_result.setPlainText(resultTokens)
 
+        self.ui.output_table_result.setColumnCount(2)
+        self.ui.output_table_result.setRowCount(len(tokensFound))
+        self.ui.output_table_result.setHorizontalHeaderLabels(["Lexema", "Token"])
+
+        for pos, (lexema, tokenType) in enumerate(tokensFound):
+            lexemaWidget = QTableWidgetItem(str(lexema))
+            tokenTypeWidget = QTableWidgetItem(str(tokenType))
+            
+            self.ui.output_table_result.setItem(pos, 0, lexemaWidget)
+            self.ui.output_table_result.setItem(pos, 1, tokenTypeWidget)
 
     def showOutputMessage(self, text, color):
         cursor = self.ui.output_messages.textCursor()

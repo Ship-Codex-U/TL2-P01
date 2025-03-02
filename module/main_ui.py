@@ -15,9 +15,9 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QLabel, QMainWindow, QMenuBar,
-    QPlainTextEdit, QPushButton, QSizePolicy, QStatusBar,
-    QWidget)
+from PySide6.QtWidgets import (QApplication, QHeaderView, QLabel, QMainWindow,
+    QMenuBar, QPlainTextEdit, QPushButton, QSizePolicy,
+    QStatusBar, QTableWidget, QTableWidgetItem, QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -30,11 +30,6 @@ class Ui_MainWindow(object):
         self.input_code.setObjectName(u"input_code")
         self.input_code.setGeometry(QRect(10, 30, 441, 261))
         self.input_code.setCursorWidth(1)
-        self.output_result = QPlainTextEdit(self.centralwidget)
-        self.output_result.setObjectName(u"output_result")
-        self.output_result.setGeometry(QRect(470, 30, 431, 261))
-        self.output_result.setReadOnly(True)
-        self.output_result.setCursorWidth(0)
         self.button_compile = QPushButton(self.centralwidget)
         self.button_compile.setObjectName(u"button_compile")
         self.button_compile.setGeometry(QRect(10, 300, 75, 24))
@@ -53,6 +48,9 @@ class Ui_MainWindow(object):
         self.label_3 = QLabel(self.centralwidget)
         self.label_3.setObjectName(u"label_3")
         self.label_3.setGeometry(QRect(470, 10, 101, 16))
+        self.output_table_result = QTableWidget(self.centralwidget)
+        self.output_table_result.setObjectName(u"output_table_result")
+        self.output_table_result.setGeometry(QRect(470, 30, 431, 261))
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")

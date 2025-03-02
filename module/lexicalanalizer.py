@@ -8,8 +8,8 @@ class LexicalAnalizer:
                 (r'\bchar\b',              'Palabra reservada char'),
                 (r'\bvoid\b',              'Palabra reservada void'),
                 (r'\bstring\b',            'Palabra reservada string'),
+                (r'\bPI\b',                'Constante'),
                 (r'[A-Za-z_][A-Za-z0-9_]*','Identificador'),
-                (r'\bpi\b',                'Constante'),
                 (r';',                     'Punto y coma'),
                 (r',',                     'Coma'),
                 (r'\(',                    'Paréntesis abierto'),
@@ -41,7 +41,7 @@ class LexicalAnalizer:
         compiled_re = re.compile(token_regex)
         
         pos = 0
-        line_num = 1
+        line_num = 0
         tokensFound = []
         errors = []
 
@@ -58,11 +58,8 @@ class LexicalAnalizer:
                         line_num += lexeme.count('\n')
                         break
             else:
-                error_message = f"Error LEXICO: token no reconocido '{code[pos]}'"
+                error_message = f"Error LEXICO: token no reconocido '{code[pos]}' en la linea {line_num + 1}"
                 errors.append(error_message)
                 pos += 1
-
-                if code[pos-1] == '\n':
-                    line_num += 1
-
+       
         return tokensFound, errors
