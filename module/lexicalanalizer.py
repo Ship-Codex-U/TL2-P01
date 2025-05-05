@@ -44,7 +44,7 @@ class LexicalAnalizer:
         
         pos = 0
         line_num = 0
-        tokensFound = []
+        tokens_found = []
         errors = []
 
         while pos < len(code):
@@ -55,7 +55,7 @@ class LexicalAnalizer:
                     lexeme = match.group(f'TOKEN_{i}')
                     if lexeme:
                         if tokenType:
-                            tokensFound.append((lexeme, tokenType, line_num + 1))
+                            tokens_found.append((lexeme, tokenType, line_num + 1))
                         pos = match.end()
                         line_num += lexeme.count('\n')
                         break
@@ -64,4 +64,4 @@ class LexicalAnalizer:
                 errors.append(error_message)
                 pos += 1
        
-        return tokensFound, errors
+        return tokens_found, errors
