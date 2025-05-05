@@ -3,6 +3,11 @@ import re
 class LexicalAnalizer:
     def __init__(self):
         self.__tokens = [
+                (r'\bif\b',                'Palabra reservada if'),
+                (r'\bwhile\b',             'Palabra reservada while'),
+                (r'\breturn\b',            'Palabra reservada return'),
+                (r'\belse\b',              'Palabra reservada else'),
+                (r'\bfor\b',               'Palabra reservada for'),
                 (r'\bint\b',               'Palabra reservada int'),
                 (r'\bfloat\b',             'Palabra reservada float'),
                 (r'\bchar\b',              'Palabra reservada char'),
@@ -16,20 +21,17 @@ class LexicalAnalizer:
                 (r'\)',                    'Paréntesis cerrado'),
                 (r'\{',                    'Llave abierta'),
                 (r'\}',                    'Llave cerrada'),
-                (r'=',                     'Asignación'),
-                (r'\bif\b',                'Palabra reservada if'),
-                (r'\bwhile\b',             'Palabra reservada while'),
-                (r'\breturn\b',            'Palabra reservada return'),
-                (r'\belse\b',              'Palabra reservada else'),
-                (r'\bfor\b',               'Palabra reservada for'),
+                (r'\+\+',                  'Operador incremento'),
+                (r'--',                    'Operador decremento'),
                 (r'\+',                    'Operador suma'),
                 (r'-',                     'Operador resta'),
                 (r'\*',                    'Operador multiplicación'),
                 (r'/',                     'Operador división'),
                 (r'&&',                    'Operador AND'),
                 (r'\|\|',                  'Operador OR'),
-                (r'<|<=|>|>=',             'Operador relacional'),
+                (r'<=|>=|<|>',             'Operador relacional'),
                 (r'==|!=',                 'Operación igualdad'),
+                (r'=',                     'Asignación'),
                 (r'\d+\.\d+',              'Real'),
                 (r'\d+',                   'Entero'),
                 (r'\".*?\"',               'Cadena'),
@@ -53,7 +55,7 @@ class LexicalAnalizer:
                     lexeme = match.group(f'TOKEN_{i}')
                     if lexeme:
                         if tokenType:
-                            tokensFound.append((lexeme, tokenType))
+                            tokensFound.append((lexeme, tokenType, line_num + 1))
                         pos = match.end()
                         line_num += lexeme.count('\n')
                         break
